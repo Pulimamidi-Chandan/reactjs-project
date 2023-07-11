@@ -1,0 +1,10 @@
+news-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    font-family: "Roboto", "sana-serif";
+    box-shadow: 0 4px 8px -4px rgb(0, 0, 0, 0.3);
+
+
+}

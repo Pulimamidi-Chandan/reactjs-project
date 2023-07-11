@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Project D</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+  <script src="jquery.js"></script>
+  <script src="jquery.easy-ticker.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    .h1 {}
+
+    h1 {
+      align-items: top;
+      justify-content: top;
+      text-align: center;
+      margin-left: auto;
+      font-size: x-large;
+      color: rgb(0, 0, 0);
+
+
+    }
+
+    body {
+      background: #ddd;
+
+    }
+
+    .ticker-wrapper {
+      background: #fff;
+      width: 50%;
+      margin: 0 auto;
+      border: 1px solid #ccc;
+    }
+
+    .ticker-wrapper ul {
+      padding: 0;
+      list-style: none;
+    }
+
+    .ticker-wrapper img {
+      float: left;
+      width: 177px;
+      margin: 5px 15px 0 0;
+    }
+
+    .ticker-wrapper a {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 20px;
+      font-weight: bold;
+      text-decoration: none;
+      color: #da7f22;
+    }
+
+    .ticker-wrapper p {
+      margin: 15px 0 0;
+      font-size: 16px;
+      line-height: 28px;
+
+    }
+
+    .ticker-wrapper li:afer {
+      content: '';
+      display: block;
+      clear: both;
+    }
+
+    .ticker-wrapper li {
+      padding: 20px;
+      border-bottom: 1px dashed #ccc;
+    }
+  </style>
+
+
+
+  <script>
+    // Data from: https://data.giss.nasa.gov/gistemp/
+    // Mean from: https://earthobservatory.nasa.gov/world-of-change/DecadalTemp
+
+    window.addEventListener('load', setup);
+
+    async function setup() {
+      const ctx = document.getElementById('myChart').getContext('2d');
+      const data = await getData();
+      const myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: data.years,
+          datasets: [
+            {
+              label: 'Temperature in °C',
+              data: data.temps,
+              fill: false,
+              borderColor: 'rgba(25, 99, 332, 1)',
+              backgroundColor: 'rgba(25s, 99, 332, 0.5)',
+              borderWidth: 5
+            }
+          ]
+        },
+        options: {
+          title: 'Global Temperatures',
+          xaxis: {
+            title: 'Year'
+          },
+          yaxis: {
+            title: 'Temperature (°C)'
+          }
+        }
+      });
+    }
+
+    async function getData() {
+      const response = await fetch('ZonAnn.Ts+dSST.csv');
+      const data = await response.text();
+      const years = [];
+      const temps = [];
+      const rows = data.split('\n').slice(1);
+      rows.forEach(row => {
+        const cols = row.split(',');
+        years.push(cols[0]);
+        temps.push(14 + parseFloat(cols[1]));
+      });
+      return { years, temps };
+    }
+
+  </script>
+
+
+
+
+</head>
+
+<body>
+
+  <div id="piechart" class="chart"></div>
+
+  <h1>Global Average Temperatures 1880-2018</h1>
+  <canvas id="myChart" class="two" width="400" height="100"></canvas>
+  <h1>Trending News</h1>
+  <div class="ticker-wrapper">
+    <ul>
+
+      <li>
+        <img src="https://images.indianexpress.com/2023/07/ISRO-chandrayaan-3-20230706.jpg?w=640">
+        <a href="">Chandrayaan-3 mission to be launched on July 14, announces ISRO</a>
+        <p>The LVM-3 rocket and Chandrayaan-3 spacecraft at the launchpad in Sriharikota (ISRO via Twitter)</p>
+      </li>
+      <li>
+        <img src="https://images.indianexpress.com/2023/06/Gaganyaan-copy-20230622.jpg?w=640">
+        <a href="#">First abort mission of ‘Gaganyaan’ to be conducted in August-end: ISRO chairman</a>
+        <p>Sriharikota: Indian Space Research Organisation (ISRO)'s heaviest rocket LVM3-M2 lifts-off from a launch pad
+          at the Satish Dhawan Space Centre, in Sriharikota, Sunday, Oct. 23, 2022.</p>
+      </li>
+      <li>
+        <img src="https://images.indianexpress.com/2023/05/PTI05_29_2023_000092A.jpg?w=640">
+        <a href="#">ISRO launches NVS-01 successfully, first with GSLV since 2021 failure</a>
+        <p>The ISRO's GSLV rocket carrying navigation satellite NVS-01 lifts off from the Satish Dhawan Space Centre, in
+          Sriharikota. (PTI)</p>
+      </li>
+      <li>
+        <img src="https://images.indianexpress.com/2023/05/xposat-express.jpg?w=640">
+        <a href="#">What is XPoSat, India’s first polarimetry mission?</a>
+        <p>The spacecraft will carry two scientific payloads in a low earth orbit. The primary payload POLIX
+          (Polarimeter Instrument in X-rays) will measure the polarimetry parameters (degree and angle of polarisation).
+          (Via Wikimedia Commons/ISRO and United Nations Office for Outer Space Affairs)</p>
+      </li>
+      <li>
+        <img src="https://images.indianexpress.com/2023/02/isro_5-1.jpg?w=630">
+        <a href="#">ISRO launches its entry in small satellite launch vehicle market with SSLV-D2 rocket</a>
+        <p>The Indian Space Research Organisation (ISRO) on Friday launched its Small Satellite Launch Vehicle (SSLV-D2)
+          from Satish Dhawan Space Centre at Sriharikota and successfully placed the earth observation satellite EOS-07
+          and two co-passenger satellites
+        </p>
+      </li>
+
+
+    </ul>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script
+    src="https://www.jqueryscript.net/demo/Flexible-Customizable-jQuery-News-Ticker-Plugin-Easy-Ticker/jquery.easy-ticker.js"></script>
+  <script type="text/javascript">
+    $('.ticker-wrapper').easyTicker({
+      direction: 'up',
+      easing: 'swing',
+      visible: 3,
+      mousePause: 1
+    });
+  </script>
+
+
+
+</body>
+
+</html>
